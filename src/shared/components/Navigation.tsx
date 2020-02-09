@@ -7,6 +7,11 @@ const Navigation = () => (
         </a>
       </li>
       <li>
+        <a href="/lab">
+          <button>lab</button>
+        </a>
+      </li>
+      <li>
         <a href="/blog">
           <button>blog</button>
         </a>
@@ -18,7 +23,7 @@ const Navigation = () => (
       </li>
     </ul>
 
-    <style jsx={true}>{`
+    <style jsx>{`
       .navigation {
         margin: 0 auto;
         max-width: 50%;
