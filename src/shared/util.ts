@@ -1,3 +1,5 @@
+import { preval } from "ts-transformer-preval-macro";
+import { AppContext } from "next/app";
 
 export function registerServiceWorker() {
   if ("serviceWorker" in navigator && "caches" in window) {
@@ -21,4 +23,16 @@ export function registerServiceWorker() {
     }, 0);
   }
   return false;
+}
+
+export function getFrontMatter(router: AppContext["router"]) {
+  return (
+    (router.route === "/" && require("../pages/index.mdx").frontMatter) ||
+    (/^\/blog\//.test(router.route) && require(`../pages${router.route}.mdx`)).frontMatter ||
+    {}
+  );
+}
+
+export function getPostFiles() {
+  return require("fs").readdirSync("./src/pages/blog");
 }

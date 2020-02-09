@@ -6,6 +6,7 @@ module.exports = (phase, { defaultConfig }) => {
   const emoji = require("remark-emoji");
   const images = require("remark-images");
   const withCSS = require("@zeit/next-css");
+
   const withFonts = require("next-fonts");
   const withOptimizedImages = require("next-optimized-images");
 
@@ -14,7 +15,7 @@ module.exports = (phase, { defaultConfig }) => {
     options: {
       remarkPlugins: [
         images,
-        emoji
+        emoji,
       ]
     }
   });

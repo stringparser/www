@@ -1,7 +1,11 @@
+@import url("https://fonts.googleapis.com/css?family=Gloria+Hallelujah&display=swap");
+
 :root {
-  --font-sans: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
-  --font-mono: Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace;
   --text-color: #000000;
+
+  --font-mono: Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace;
+  --font-family: 'Gloria Hallelujah', cursive;
+  /* --font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif; */
 }
 
 body {
@@ -10,7 +14,7 @@ body {
 
   color: var(--text-color);
 
-  font-family: var(--font-sans);
+  font-family: var(--font-family);
   text-rendering: optimizeLegibility;
 }
 
