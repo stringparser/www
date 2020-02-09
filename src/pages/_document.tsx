@@ -1,6 +1,7 @@
 import Document, { Head, Main, NextScript } from "next/document";
 
 import config from "../../config";
+import Navigation from "../shared/components/Navigation";
 
 export default class MyDocument extends Document {
 
@@ -75,6 +76,7 @@ export default class MyDocument extends Document {
           */}
         </Head>
         <body>
+          <Navigation />
           <Main />
           <NextScript />
         </body>

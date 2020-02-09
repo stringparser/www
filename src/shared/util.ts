@@ -25,10 +25,10 @@ export function registerServiceWorker() {
   return false;
 }
 
-export function getFrontMatter(router: AppContext["router"]) {
+export function getMeta(router: AppContext["router"]) {
   return (
-    (router.route === "/" && require("../pages/index.mdx").frontMatter) ||
-    (/^\/blog\//.test(router.route) && require(`../pages${router.route}.mdx`)).frontMatter ||
+    ((!router.route || router.route === "/") && require("../pages/index.mdx").meta) ||
+    require(`../pages${router.route}.mdx`).meta ||
     {}
   );
 }

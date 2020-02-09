@@ -3,7 +3,7 @@ import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 
 import "./app.module.css";
 import config from '../../config';
-import { getFrontMatter } from "../shared/util";
+import { getMeta } from "../shared/util";
 
 class MyApp extends App<AppProps> {
   static async getInitialProps({ Component, router, ctx }: AppContext): Promise<AppInitialProps> {
@@ -12,13 +12,16 @@ class MyApp extends App<AppProps> {
       : {}
       ;
 
-    const frontMatter = getFrontMatter(router);
+    const meta = /^\/[a-z]/.test(router.route)
+      ? getMeta(router)
+      : {}
+      ;
 
     return {
       pageProps: {
         ...pageProps,
         seo: {
-          ...frontMatter,
+          ...meta,
           ...config.seo,
         }
       }
