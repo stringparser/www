@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "jacami",
+  "alias": "jacami.es",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/static-build"
+    }
+  ]
+}
