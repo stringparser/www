@@ -1,6 +1,4 @@
 import { preval } from "ts-transformer-preval-macro";
-import { AppContext } from "next/app";
-
 export function registerServiceWorker() {
   if ("serviceWorker" in navigator && "caches" in window) {
     setTimeout(async () => {
@@ -25,12 +23,24 @@ export function registerServiceWorker() {
   return false;
 }
 
-export function getMeta(router: AppContext["router"]) {
-  return (
-    ((!router.route || router.route === "/") && require("../pages/index.mdx").meta) ||
-    require(`../pages${router.route}.mdx`).meta ||
-    {}
-  );
+const slugRE = /^\/[^\s]+\/?$/;
+
+export function getSlug(route: string) {
+  const [_match, slug = '/'] = slugRE.exec(route) || [];
+  return slug;
+}
+
+export function getMeta(route: string) {
+
+  if (!route || route === "/") {
+    return require("../pages/index.mdx").meta || {};
+  }
+
+  if (slugRE.test(route)) {
+    return require(`../pages${route}/index.mdx`).meta || {};
+  }
+
+  return require(`../pages${route}.mdx`).meta || {};
 }
 
 export function getPostFiles() {

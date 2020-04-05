@@ -1,26 +1,62 @@
-const Navigation = () => (
-  <div>
+import { AnchorHTMLAttributes } from "react";
+
+const isCurrentPage = (currentHref: string, href: string) => (
+  currentHref === href
+);
+
+const items = [
+  {
+    href: '/',
+    label: 'index',
+  },
+  {
+    href: '/lab',
+    label: 'lab',
+  },
+  {
+    href: '/blog',
+    label: 'blog',
+  },
+];
+
+type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement>;
+
+const NavigationLink: React.SFC<LinkProps> = ({ className, children, href }) => (
+  <>
+    <a
+      href={href}
+      className={className}
+    >
+      {children}
+    </a>
+    <style jsx>{`
+      .current {
+        text-decoration: underline;
+      }
+    `}</style>
+  </>
+);
+
+type Props = {
+  currentSlug: string;
+};
+
+const Navigation: React.SFC<Props> = ({ currentSlug }) => (
+  <>
     <ul className="navigation">
-      <li>
-        <a href="/">
-          <button>index</button>
-        </a>
-      </li>
-      <li>
-        <a href="/lab">
-          <button>lab</button>
-        </a>
-      </li>
-      <li>
-        <a href="/blog">
-          <button>blog</button>
-        </a>
-      </li>
-      <li>
-        <a href="/about">
-          <button>about</button>
-        </a>
-      </li>
+      {items.map(({ href, label }, index) =>
+        <li key={index}>
+          <NavigationLink
+            href={href}
+            className={isCurrentPage(currentSlug, href)
+              ? 'current'
+              : undefined
+            }
+          >
+            {label}
+          </NavigationLink>
+        </li>
+      )}
     </ul>
 
     <style jsx>{`
@@ -35,7 +71,7 @@ const Navigation = () => (
         justify-content: space-between;
       }
     `}</style>
-  </div>
+  </>
 )
 
 export default Navigation;
