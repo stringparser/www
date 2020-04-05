@@ -1,14 +1,14 @@
 {
-  "name": "jacami.es",
+  "name": "jacami.co",
   "version": "1.0.0",
   "description": "website",
   "scripts": {
     "dev": "NODE_ENV=development next ./src",
     "test": "jest",
     "build": "NODE_ENV=production next build ./src",
-    "build-dev": "NODE_ENV=development next build ./src",
     "start": "NODE_ENV=production next start ./src",
     "clean": "rm -rf .next ; npm ci ; NODE_ENV=development npm run dev ./src",
+    "build-dev": "NODE_ENV=development next build ./src",
     "now-build": "next build ./src && next export ./src -o dist"
   },
   "keywords": [
