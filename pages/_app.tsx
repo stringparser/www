@@ -36,13 +36,11 @@ class MyApp extends App<AppProps> {
 
   render() {
     const {
-      title,
-      primaryColor
+      pageTitle,
+      primaryColor,
     } = config.defaults;
 
     const { Component, pageProps } = this.props;
-
-    console.log('pageProps', pageProps);
 
     return (
       <>
@@ -151,7 +149,7 @@ class MyApp extends App<AppProps> {
 
           <meta
             name="apple-mobile-web-app-title"
-            content={title}
+            content={pageTitle}
           />
 
           <meta
@@ -159,7 +157,9 @@ class MyApp extends App<AppProps> {
             content={primaryColor}
           />
 
-          <title>{pageProps.title}</title>
+          <title>
+            {pageTitle}
+          </title>
         </Head>
         <header>
           <Navigation currentSlug={pageProps.slug} />
