@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { NextSeo } from "next-seo";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 
 import "./app.module.css";
@@ -162,7 +161,6 @@ class MyApp extends App<AppProps> {
 
           <title>{pageProps.title}</title>
         </Head>
-        <NextSeo  {...pageProps.seo} />
         <header>
           <Navigation currentSlug={pageProps.slug} />
         </header>
