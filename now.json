@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "jacami",
-  "alias": "jacami.es",
+  "alias": "jacami.co",
   "builds": [
     {
       "src": "package.json",
