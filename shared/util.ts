@@ -1,4 +1,3 @@
-import { preval } from "ts-transformer-preval-macro";
 export function registerServiceWorker() {
   if ("serviceWorker" in navigator && "caches" in window) {
     setTimeout(async () => {
