@@ -43,21 +43,20 @@ type Props = {
 
 const Navigation: React.SFC<Props> = ({ currentSlug }) => (
   <>
-    <ul className="navigation">
+    <aside className="navigation">
       {items.map(({ href, label }, index) =>
-        <li key={index}>
-          <NavigationLink
-            href={href}
-            className={isCurrentPage(currentSlug, href)
-              ? 'current'
-              : undefined
-            }
-          >
-            {label}
-          </NavigationLink>
-        </li>
+        <NavigationLink
+          key={index}
+          href={href}
+          className={isCurrentPage(currentSlug, href)
+            ? 'current'
+            : undefined
+          }
+        >
+          {label}
+        </NavigationLink>
       )}
-    </ul>
+    </aside>
 
     <style jsx>{`
       .navigation {

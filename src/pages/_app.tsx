@@ -163,8 +163,12 @@ class MyApp extends App<AppProps> {
           <title>{pageProps.title}</title>
         </Head>
         <NextSeo  {...pageProps.seo} />
-        <Navigation currentSlug={pageProps.slug} />
-        <Component {...pageProps} />
+        <header>
+          <Navigation currentSlug={pageProps.slug} />
+        </header>
+        <main>
+          <Component {...pageProps} />
+        </main>
       </>
     )
   }
