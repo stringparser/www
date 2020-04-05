@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "website",
   "scripts": {
-    "dev": "NODE_ENV=development next ./src",
+    "dev": "NODE_ENV=development next",
     "test": "jest",
-    "build": "NODE_ENV=production next build ./src",
-    "start": "NODE_ENV=production next start ./src",
-    "clean": "rm -rf .next ; npm ci ; NODE_ENV=development npm run dev ./src",
-    "build-dev": "NODE_ENV=development next build ./src",
-    "now-build": "next build ./src && next export ./src -o dist"
+    "build": "NODE_ENV=production next build",
+    "start": "NODE_ENV=production next start",
+    "clean": "rm -rf .next ; npm ci ; NODE_ENV=development npm run dev",
+    "build-dev": "NODE_ENV=development next build",
+    "now-build": "next build && next export"
   },
   "keywords": [
     "next.js",
