@@ -2,7 +2,7 @@ import Head from "next/head";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 
 import "./app.module.css";
-import config from "../../config";
+import config from "../config";
 
 import Navigation from "../shared/components/Navigation";
 import { getMeta, getSlug } from "../shared/util";
