@@ -1,11 +1,12 @@
-import Head from "next/head";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 
 import "./app.module.css";
 import config from "../config";
-import { getMeta } from "../shared/util";
 
 import { bounds } from "../shared/components/styles";
+import { getMeta } from "../shared/util";
+
+import Divider from "../shared/components/Divider/Divider";
 import Navigation from "../shared/components/Navigation/Navigation";
 import DocumentHead from "../shared/components/Document/Head";
 
@@ -46,6 +47,7 @@ class MyApp extends App<AppProps> {
         <style jsx>{`
           main {
             margin: 0 auto;
+            padding: 1rem;
             max-width: ${bounds.maxWidth};
           }
         `}</style>
