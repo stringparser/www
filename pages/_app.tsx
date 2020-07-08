@@ -11,22 +11,22 @@ import DocumentHead from "../shared/components/Document/Head";
 
 class WebApp extends App<AppProps> {
   static async getInitialProps({ Component, router, ctx }: AppContext): Promise<AppInitialProps> {
+    const route = router.route;
+
     const pageProps = Component.getInitialProps
       ? await Component.getInitialProps(ctx)
       : {}
     ;
 
-    const meta = /^\/[a-z]/.test(router.route)
-      ? getMeta(router.route)
-      : {}
-      ;
+    const meta = getMeta(router.route);
 
     return {
       pageProps: {
         ...config.defaults,
         ...pageProps,
+        ...meta,
         seo: {
-          ...meta,
+          ...meta.seo,
           ...config.seo,
         },
       }
