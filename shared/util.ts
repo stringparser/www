@@ -22,26 +22,24 @@ export function registerServiceWorker() {
   return false;
 }
 
-const slugRE = /^\/[^\s]+\/?$/;
+const slugRE = /^\/[^0-9]+\/?$/;
+const baseFolders = ['/lab', '/blog'];
 
 export function getSlug(route: string) {
   const [_match, slug = '/'] = slugRE.exec(route) || [];
   return slug;
 }
 
-export function getMeta(route: string) {
+export function getMeta(url: string = '') {
+  const route = url.replace(/\/(index)?$/, '');
 
   if (!route || route === "/") {
     return require("../pages/index.mdx").meta || {};
   }
 
-  if (slugRE.test(route)) {
+  if (baseFolders.includes(route)) {
     return require(`../pages${route}/index.mdx`).meta || {};
   }
 
   return require(`../pages${route}.mdx`).meta || {};
-}
-
-export function getPostFiles() {
-  return require("fs").readdirSync("./src/pages/blog");
 }
