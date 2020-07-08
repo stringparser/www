@@ -1,7 +1,8 @@
 {
-  "name": "javieh.es",
+  "name": "@stringparser/www",
+  "private": true,
   "version": "1.0.0",
-  "description": "website",
+  "description": "my website",
   "scripts": {
     "dev": "NODE_ENV=development next",
     "test": "jest",
@@ -18,9 +19,6 @@
     "mdx"
   ],
   "license": "ISC",
-  "bin": {
-    "blog": "bin/cli.js"
-  },
   "browserslist": [
     "last 2 version"
   ],
