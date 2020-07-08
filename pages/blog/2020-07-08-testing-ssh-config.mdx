@@ -1,0 +1,81 @@
+import CodeBlock from "./../../shared/components/CodeBlock/CodeBlock";
+
+export const meta = {
+  title: 'Testing ssh config',
+  description: 'why is not working'
+};
+
+# Testing ssh config
+
+While setting up again this site today I noticed I didn't setup yet a `.ssh/config` file and, of course, I already had forgotten how to write in the format.
+
+So I created a file first at `~/.ssh/config` and added
+
+<CodeBlock language="bash">{`
+# ~/.ssh/config
+Host github
+	UseKeychain yes
+	AddKeysToAgent yes
+	HostName github.com
+	IdentityFile ~/.ssh/id_github_rsa
+`}
+</CodeBlock>
+
+Then created a new ssh key with that name with the [steps we all know](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) from the github docs.
+
+And added it to the keychain
+
+<CodeBlock language="bash">{`
+ssh-add -K ~/.ssh/config/id
+`}
+</CodeBlock>
+
+But it wasn't working so I had to figure out why. Looking into `ssh` command line options found I could use
+
+<CodeBlock language="bash">{`
+ssh -T git@github.com
+`}
+</CodeBlock>
+
+to test the connection this said "Permission denied (public key)". As expected I guess.
+
+Then I thought if I could see the log of the command it could help. There is a `-v` for `verbose` so... let's try that
+
+<CodeBlock language="bash">{`
+ssh -vT git@github.com
+`}</CodeBlock>
+
+which showed
+
+<CodeBlock language="bash">{`
+OpenSSH_8.1p1, LibreSSL 2.7.3
+debug1: Reading configuration data ~/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 47: Applying options for *
+debug1: Connecting to github.com port 22.
+`}</CodeBlock>
+
+Hmm... so that's not working. The configuration is not being applied. Is it the `Host` at the top? Let's try changing it
+
+<CodeBlock language="bash">{`
+Host github.com
+	UseKeychain yes
+	AddKeysToAgent yes
+	HostName github.com
+	IdentityFile ~/.ssh/id_github_rsa
+`}
+</CodeBlock>
+
+and now?
+
+<CodeBlock language="bash">{`
+ssh -vT git@github.com
+OpenSSH_8.1p1, LibreSSL 2.7.3
+debug1: Reading configuration data ~/.ssh/config
+debug1: ~/.ssh/config line 1: Applying options for github.com
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 47: Applying options for *
+`}
+</CodeBlock>
+
+Niiice. So that was it now configuration is applied and the ssh key is correctly used for `git push`.
