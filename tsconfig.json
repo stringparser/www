@@ -3,9 +3,9 @@
     "node_modules"
   ],
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "next-env.d.ts"
   ],
   "compilerOptions": {
     "jsx": "preserve",
@@ -14,17 +14,16 @@
       "dom.iterable",
       "esnext"
     ],
+    "strict": true,
     "noEmit": true,
-    "module": "esnext",
     "target": "es5",
+    "module": "esnext",
     "allowJs": true,
     "skipLibCheck": true,
     "isolatedModules": true,
+    "esModuleInterop": true,
     "moduleResolution": "node",
-    // "incremental": true,                   /* Enable incremental compilation */
-    "strict": true, /* Enable all strict type-checking options. */
-    "esModuleInterop": true, /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true
   }
 }

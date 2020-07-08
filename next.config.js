@@ -1,26 +1,26 @@
-module.exports = (phase, { defaultConfig }) => {
-  const fs = require("fs");
-  const path = require("path");
-  const { promisify } = require("util");
+const fs = require("fs");
+const path = require("path");
+const { promisify } = require("util");
 
-  const emoji = require("remark-emoji");
-  const images = require("remark-images");
-  const withCSS = require("@zeit/next-css");
+const emoji = require("remark-emoji");
+const images = require("remark-images");
+const withCSS = require("@zeit/next-css");
+const withFonts = require("next-fonts");
+const withOptimizedImages = require("next-optimized-images");
 
-  const withFonts = require("next-fonts");
-  const withOptimizedImages = require("next-optimized-images");
+const withMDX = require("@zeit/next-mdx")({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [
+      emoji,
+      images,
+    ]
+  }
+});
 
-  const withMDX = require("@zeit/next-mdx")({
-    extension: /\.mdx?$/,
-    options: {
-      remarkPlugins: [
-        images,
-        emoji,
-      ]
-    }
-  });
+const copyFile = promisify(fs.copyFile);
 
-  const copyFile = promisify(fs.copyFile);
+exports = module.exports = (phase, { defaultConfig }) => {
 
   return withCSS(
     withFonts(
@@ -34,7 +34,12 @@ module.exports = (phase, { defaultConfig }) => {
             return config;
           },
 
-          pageExtensions: ["ts", "tsx", "md", "mdx"],
+          pageExtensions: [
+            "ts",
+            "tsx",
+            "md",
+            "mdx"
+          ],
 
           async exportPathMap(defaultPathMap, { dev, dir, outDir, distDir, buildId }) {
             if (dev) {
