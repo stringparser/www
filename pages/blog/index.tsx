@@ -13,9 +13,9 @@ export async function getStaticProps(): Promise<{ props: Props }> {
 
   const posts = fs.readdirSync(path.join(process.cwd(), 'pages', 'blog'))
     .filter((el: string) => /^\d+-\d+-\d+/.test(el))
-    .map((el: string) => `/blog/${el}`)
+    .map((el: string) => `/blog/${el.replace(/\.mdx$/, '')}`)
     .map((href: string) => {
-      const title = (/\d+-\d+-\d+-(\S+)\.mdx/gm.exec(href) || ['']).pop() || '';
+      const title = (/\d+-\d+-\d+-(\S+)/gm.exec(href) || ['']).pop() || '';
 
       return {
         href,
