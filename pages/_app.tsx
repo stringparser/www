@@ -1,4 +1,5 @@
-import App, { AppContext, AppInitialProps, AppProps } from "next/app";
+import { ThemeProvider } from "@material-ui/core";
+import { AppContext, AppProps } from "next/app";
 
 import "./app.module.css";
 import config from "../config";
@@ -8,6 +9,7 @@ import { getMeta } from "../shared/util";
 
 import Navigation from "../shared/components/Navigation/Navigation";
 import DocumentHead from "../shared/components/Document/Head";
+import theme from "../shared/theme";
 
 export async function getStaticProps({ Component, router, ctx }: AppContext) {
   const pageProps = typeof window === 'undefined' && Component.getInitialProps
@@ -34,7 +36,7 @@ const WebApp: React.FC<AppProps> = ({
   Component,
   pageProps
 }) => (
-  <>
+  <ThemeProvider theme={theme}>
     <DocumentHead {...config.defaults} />
     <Navigation />
     <main>
@@ -47,7 +49,7 @@ const WebApp: React.FC<AppProps> = ({
         max-width: ${bounds.maxWidth};
       }
     `}</style>
-  </>
+  </ThemeProvider>
 );
 
 export default WebApp;
