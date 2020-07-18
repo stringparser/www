@@ -4,8 +4,7 @@
   ],
   "include": [
     "**/*.ts",
-    "**/*.tsx",
-    "next-env.d.ts", "pages/_document.jsx"
+    "**/*.tsx"
   ],
   "compilerOptions": {
     "jsx": "preserve",
