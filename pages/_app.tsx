@@ -47,8 +47,6 @@ const WebApp: React.FC<AppProps> = (props) => {
     }
   }, []);
 
-  console.log('pageProps', pageProps);
-
   const headProps: typeof config.defaults = {
     ...config.defaults,
     ...pageProps,
