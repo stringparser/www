@@ -11,6 +11,7 @@ type Props = {
     href: string;
     title: string;
   }>;
+  pageTitle: string;
 };
 
 export async function getStaticProps(): Promise<{ props: Props }> {
@@ -32,7 +33,8 @@ export async function getStaticProps(): Promise<{ props: Props }> {
 
   return {
     props: {
-      posts
+      posts,
+      pageTitle: 'blog index',
     },
   };
 }

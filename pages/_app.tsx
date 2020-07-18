@@ -1,15 +1,15 @@
-import { ThemeProvider } from "@material-ui/core";
+import React from "react";
 import { AppContext, AppProps } from "next/app";
+import { ThemeProvider, CssBaseline } from "@material-ui/core";
 
 import "./app.module.css";
 import config from "../config";
 
-import { bounds } from "../shared/components/styles";
+import theme from "../shared/theme";
 import { getMeta } from "../shared/util";
 
 import Navigation from "../shared/components/Navigation/Navigation";
 import DocumentHead from "../shared/components/Document/Head";
-import theme from "../shared/theme";
 
 export async function getStaticProps({ Component, router, ctx }: AppContext) {
   const pageProps = typeof window === 'undefined' && Component.getInitialProps
@@ -32,24 +32,48 @@ export async function getStaticProps({ Component, router, ctx }: AppContext) {
   };
 }
 
-const WebApp: React.FC<AppProps> = ({
-  Component,
-  pageProps
-}) => (
-  <ThemeProvider theme={theme}>
-    <DocumentHead {...config.defaults} />
-    <Navigation />
-    <main>
-      <Component {...pageProps} />
-    </main>
-    <style jsx>{`
-      main {
-        margin: 0 auto;
-        padding: 1rem;
-        max-width: ${bounds.maxWidth};
-      }
-    `}</style>
-  </ThemeProvider>
-);
+const WebApp: React.FC<AppProps> = (props) => {
+  const {
+    Component,
+    pageProps
+  } = props;
+
+  React.useEffect(() => {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector<HTMLElement>('#jss-server-side');
+
+    if (jssStyles && jssStyles.parentElement) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
+  }, []);
+
+  console.log('pageProps', pageProps);
+
+  const headProps: typeof config.defaults = {
+    ...config.defaults,
+    ...pageProps,
+  };
+
+  return (
+    <>
+      <DocumentHead {...headProps}>
+        <meta
+          name="apple-mobile-web-app-title"
+          content={headProps.pageTitle}
+        />
+        <title>
+          {headProps.pageTitle}
+        </title>
+      </DocumentHead>
+      <Navigation />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <main>
+          <Component {...pageProps} />
+        </main>
+      </ThemeProvider>
+    </>
+  );
+};
 
 export default WebApp;
