@@ -7,46 +7,46 @@ type Props = {
   }>;
 };
 
-export default class BlogIndex extends React.Component<Props> {
-  static async getInitialProps(): Promise<Props> {
-    const fs = require('fs');
-    const path = require('path');
+export async function getStaticProps(): Promise<{ props: Props }> {
+  const fs = require('fs');
+  const path = require('path');
 
-    const posts = fs.readdirSync(path.join(process.cwd(), 'pages', 'blog'))
-      .filter((el: string) => /^\d+-\d+-\d+/.test(el))
-      .map((el: string) => `/blog/${el}`)
-      .map((href: string) => {
-        const title = (/\d+-\d+-\d+-(\S+)\.mdx/gm.exec(href) || ['']).pop() || '';
+  const posts = fs.readdirSync(path.join(process.cwd(), 'pages', 'blog'))
+    .filter((el: string) => /^\d+-\d+-\d+/.test(el))
+    .map((el: string) => `/blog/${el}`)
+    .map((href: string) => {
+      const title = (/\d+-\d+-\d+-(\S+)\.mdx/gm.exec(href) || ['']).pop() || '';
 
-        return {
-          href,
-          title: title.replace(/[-]/g, ' '),
-        };
-      })
-    ;
+      return {
+        href,
+        title: title.replace(/[-]/g, ' '),
+      };
+    })
+  ;
 
-    return {
+  return {
+    props: {
       posts
-    };
-  }
-
-  render() {
-    const { posts = [] } = this.props;
-
-    return (
-      <>
-        <h1>blog index</h1>
-
-        <ul>
-          {posts.map((el, index) => {
-            return (
-              <li key={index}>
-                <a href={el.href}>{el.title}</a>
-              </li>
-            )
-          })}
-        </ul>
-      </>
-    );
-  }
+    },
+  };
 }
+
+const BlogIndex: React.FC<Props> = ({
+  posts = []
+}) => (
+  <>
+    <h1>blog index</h1>
+
+    <ul>
+      {posts.map((el, index) => {
+        return (
+          <li key={index}>
+            <a href={el.href}>{el.title}</a>
+          </li>
+        )
+      })}
+    </ul>
+  </>
+);
+
+export default BlogIndex;

@@ -9,50 +9,45 @@ import { getMeta } from "../shared/util";
 import Navigation from "../shared/components/Navigation/Navigation";
 import DocumentHead from "../shared/components/Document/Head";
 
-class WebApp extends App<AppProps> {
-  static async getInitialProps({ Component, router, ctx }: AppContext): Promise<AppInitialProps> {
-    const route = router.route;
+export async function getStaticProps({ Component, router, ctx }: AppContext) {
+  const pageProps = typeof window === 'undefined' && Component.getInitialProps
+    ? await Component.getInitialProps(ctx)
+    : {}
+  ;
 
-    const pageProps = Component.getInitialProps
-      ? await Component.getInitialProps(ctx)
-      : {}
-    ;
+  const meta = getMeta(router.route);
 
-    const meta = getMeta(router.route);
-
-    return {
-      pageProps: {
-        ...config.defaults,
-        ...pageProps,
-        ...meta,
-        seo: {
-          ...meta.seo,
-          ...config.seo,
-        },
-      }
-    };
-  }
-
-  render() {
-    const { Component, pageProps } = this.props;
-
-    return (
-      <>
-        <DocumentHead {...config.defaults} />
-        <Navigation />
-        <main>
-          <Component {...pageProps} />
-        </main>
-        <style jsx>{`
-          main {
-            margin: 0 auto;
-            padding: 1rem;
-            max-width: ${bounds.maxWidth};
-          }
-        `}</style>
-      </>
-    )
-  }
+  return {
+    props: {
+      ...config.defaults,
+      ...pageProps,
+      ...meta,
+      seo: {
+        ...meta.seo,
+        ...config.seo,
+      },
+    }
+  };
 }
+
+const WebApp: React.FC<AppProps> = ({
+  Component,
+  pageProps
+}) => (
+  <>
+    <DocumentHead {...config.defaults} />
+    <Navigation />
+    <main>
+      <Component {...pageProps} />
+    </main>
+    <style jsx>{`
+      main {
+        margin: 0 auto;
+        padding: 1rem;
+        max-width: ${bounds.maxWidth};
+      }
+    `}</style>
+  </>
+);
 
 export default WebApp;
