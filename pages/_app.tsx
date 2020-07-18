@@ -18,9 +18,6 @@ class WebApp extends App<AppProps> {
       : {}
     ;
 
-    console.log(Component);
-    console.log('pageProps', pageProps);
-
     const meta = getMeta(router.route);
 
     return {
