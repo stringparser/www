@@ -19,15 +19,22 @@ const useStyles = makeStyles({
       marginLeft: '1rem',
     }
   }
-})
+});
 
-const AudioRecorder: React.FC = () => {
+export type AudioRecorderProps = {
+  loop?: boolean;
+};
+
+const AudioRecorder: React.FC<AudioRecorderProps> = (props) => {
+  const {
+    loop = false
+  } = props;
+
   const classes = useStyles();
-
   const audioRef = createRef<HTMLAudioElement>();
 
   const [state, setState] = useState<State>({
-    shouldLoopAudio: true,
+    shouldLoopAudio: loop,
   });
 
   const [audioSrc, setAudioSrc] = useState<string>('');
