@@ -1,58 +1,52 @@
-const fs = require("fs");
-const path = require("path");
-const { promisify } = require("util");
-
-const emoji = require("remark-emoji");
-const images = require("remark-images");
 const withCSS = require("@zeit/next-css");
 const withFonts = require("next-fonts");
 const withOptimizedImages = require("next-optimized-images");
 
-const withMDX = require("@zeit/next-mdx")({
-  extension: /\.mdx?$/,
-  options: {
-    remarkPlugins: [
-      emoji,
-      images,
-    ]
-  }
-});
+const emoji = require("remark-emoji");
+const images = require("remark-images");
+const dropcap = require('remark-dropcap');
 
-const copyFile = promisify(fs.copyFile);
-
-exports = module.exports = (phase, { defaultConfig }) => {
+exports = module.exports = (nextConfig = {}) => {
 
   return withCSS(
     withFonts(
-      withOptimizedImages(
-        withMDX({
-          webpack(config, { dev }) {
-            config.node = {
-              fs: "empty"
-            };
+      withOptimizedImages({
+        pageExtensions: [
+          "ts",
+          "tsx",
+          "md",
+          "mdx"
+        ],
 
-            return config;
-          },
+        webpack(config, options) {
+          config.node = {
+            fs: "empty"
+          };
 
-          pageExtensions: [
-            "ts",
-            "tsx",
-            "md",
-            "mdx"
-          ],
+          config.module.rules.push({
+            test: /\.mdx$/,
+            use: [
+              options.defaultLoaders.babel,
+              {
+                loader: '@mdx-js/loader',
+                options: {
+                  remarkPlugins: [
+                    emoji,
+                    images,
+                    dropcap
+                  ]
+                },
+              },
+            ],
+          })
 
-          async exportPathMap(defaultPathMap, { dev, dir, outDir, distDir, buildId }) {
-            if (dev) {
-              return defaultPathMap;
-            }
-            await copyFile(
-              path.join(dir, "worker.js"),
-              path.join(outDir, "worker.js")
-            );
-            return defaultPathMap;
+          if (typeof nextConfig.webpack === 'function') {
+            return nextConfig.webpack(config, options)
           }
-        })
-      )
+
+          return config;
+        }
+      })
     )
   );
 };
