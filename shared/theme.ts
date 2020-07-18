@@ -8,6 +8,12 @@ const theme = createMuiTheme({
             fontWeight: 700,
         }
     },
+
+    props: {
+        MuiButton: {
+            variant: 'contained',
+        }
+    }
 });
 
 export default theme;
