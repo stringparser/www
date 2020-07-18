@@ -38,7 +38,7 @@ export function getMeta(url: string = '') {
   }
 
   if (baseFolders.includes(route)) {
-    return require(`../pages${route}/index.mdx`).meta || {};
+    return require(`../pages${route}/index`).meta || {};
   }
 
   return require(`../pages${route}.mdx`).meta || {};
