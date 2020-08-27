@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { withRouter, NextRouter } from "next/router";
+
 import { common } from "@material-ui/core/colors";
 import { Theme, makeStyles, Link as MuiLink, FormControlLabel, withStyles, Switch, useTheme } from "@material-ui/core";
 
@@ -117,15 +118,11 @@ const Navigation: React.SFC<Props> = ({ router, onSwitchTheme }) => {
           </aside>
           <aside>
             <FormControlLabel
-              control={
-                <ThemeSwitch
-                  name="themeSwitch"
-                  checked={themeType === 'light'}
-                  onChange={onSwitchTheme}
-                />
-              }
               label={`${themeType} theme`}
+              value={themeType === 'light'}
+              control={<ThemeSwitch name="themeSwitch" />}
               labelPlacement="start"
+              onChange={onSwitchTheme}
             />
           </aside>
         </nav>
