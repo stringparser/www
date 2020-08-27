@@ -94,7 +94,6 @@ const WebApp: React.FC<AppProps> = (props) => {
         <StylesProvider jss={jss}>
           <CssBaseline />
           <Navigation
-            theme={theme}
             onSwitchTheme={handleSwitchTheme}
           />
           <main>

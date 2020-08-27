@@ -1,24 +1,27 @@
-import { Box, Theme } from "@material-ui/core";
+import { Box, Theme, makeStyles } from "@material-ui/core";
 
-type Props = {
-  theme: Theme;
-};
+const useStyles = makeStyles({
+  root: {
+    padding: '0.25rem',
+    borderRadius: '50%',
+    backgroundColor: 'snow',
+  }
+});
 
-const Logo: React.FC<Props> = ({ theme }) => {
+const Logo: React.FC = () => {
+  const classes = useStyles();
 
   return (
     <Box
       display="flex"
       alignContent="center"
       justifyContent="center"
+      className={classes.root}
     >
       <img
-        src={theme.palette.type === 'light'
-          ? require('./logo-black.png')
-          : require('./logo-white.png')
-        }
-        width="32px"
-        height="32px"
+        src={require('./logo-black.png')}
+        width="24px"
+        height="24px"
       />
     </Box>
   );

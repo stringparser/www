@@ -2,14 +2,13 @@ import clsx from "clsx";
 import Link from "next/link";
 import { Fragment, useState } from "react";
 import { withRouter, NextRouter } from "next/router";
-import { Theme, makeStyles, Link as MuiLink, Box, FormControlLabel, withStyles, Switch } from "@material-ui/core";
+import { Theme, makeStyles, Link as MuiLink, Box, FormControlLabel, withStyles, Switch, useTheme } from "@material-ui/core";
 
 import Logo from "../Logo/Logo";
 import { bounds } from "../styles";
 import { common } from "@material-ui/core/colors";
 
 type Props = {
-  theme: Theme;
   router: NextRouter;
   onSwitchTheme: () => void;
 };
@@ -55,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 
   header: {
-    padding: '1.25rem 1rem',
+    padding: '0.5rem 0',
     boxShadow: `0 1px 1px ${theme.palette.divider}`,
   },
 
@@ -78,9 +77,12 @@ const ThemeSwitch = withStyles({
   track: {},
 })(Switch);
 
-const Navigation: React.SFC<Props> = ({ router, theme, onSwitchTheme }) => {
+const Navigation: React.SFC<Props> = ({ router, onSwitchTheme }) => {
+  const theme = useTheme();
   const classes = useStyles();
-  const [state, setState] = useState({ themeSwitch: theme.palette.type === 'light' });
+
+  const themeType = theme.palette.type;
+  const [state, setState] = useState({ themeSwitch: themeType === 'light' });
 
   function handleThemeSwitch() {
     onSwitchTheme();
@@ -94,7 +96,7 @@ const Navigation: React.SFC<Props> = ({ router, theme, onSwitchTheme }) => {
         <nav className={classes.nav}>
           <aside className={classes.logo}>
             <MuiLink href="/">
-              <Logo theme={theme} />
+              <Logo />
             </MuiLink>
           </aside>
           <aside  className={classes.links}>
@@ -126,7 +128,7 @@ const Navigation: React.SFC<Props> = ({ router, theme, onSwitchTheme }) => {
                     onChange={handleThemeSwitch}
                   />
                 }
-                label={`${theme.palette.type} theme`}
+                label={`${themeType} theme`}
                 labelPlacement="start"
               />
             </aside>
