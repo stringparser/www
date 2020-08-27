@@ -43,12 +43,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 
   links: {
-    width: '100%',
     margin: '0 1rem',
     display: 'flex',
-    textAlign: 'right',
     alignItems: 'center',
-    justifyContent: 'flex-end',
   },
   link: {
     marginRight: '1rem',
@@ -119,17 +116,20 @@ const Navigation: React.SFC<Props> = ({ router, theme, onSwitchTheme }) => {
                 </Link>
               </Fragment>
             )}
-            <FormControlLabel
-              control={
-                <ThemeSwitch
-                  name="themeSwitch"
-                  checked={state.themeSwitch}
-                  onChange={handleThemeSwitch}
-                />
-              }
-              label={`${theme.palette.type} theme`}
-            />
           </aside>
+          <aside>
+              <FormControlLabel
+                control={
+                  <ThemeSwitch
+                    name="themeSwitch"
+                    checked={state.themeSwitch}
+                    onChange={handleThemeSwitch}
+                  />
+                }
+                label={`${theme.palette.type} theme`}
+                labelPlacement="start"
+              />
+            </aside>
         </nav>
       </header>
     </>
