@@ -1,15 +1,18 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { withRouter, NextRouter } from "next/router";
-import { Theme, makeStyles, Link as MuiLink, Box } from "@material-ui/core";
+import { Theme, makeStyles, Link as MuiLink, Box, FormControlLabel, withStyles, Switch } from "@material-ui/core";
 
 import Logo from "../Logo/Logo";
 import { bounds } from "../styles";
+import { common } from "@material-ui/core/colors";
 
-const isCurrentPage = (currentHref: string, href: string) => (
-  currentHref === href
-);
+type Props = {
+  theme: Theme;
+  router: NextRouter;
+  onSwitchTheme: () => void;
+};
 
 const items = [
   {
@@ -22,9 +25,9 @@ const items = [
   },
 ];
 
-type Props = {
-  router: NextRouter
-};
+const isCurrentPage = (currentHref: string, href: string) => (
+  currentHref === href
+);
 
 const useStyles = makeStyles((theme: Theme) => ({
   nav: {
@@ -64,8 +67,29 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const Navigation: React.SFC<Props> = ({ router }) => {
+const ThemeSwitch = withStyles({
+  switchBase: {
+    color: common.white,
+    '&$checked': {
+      color: common.black,
+    },
+    '&$checked + $track': {
+      backgroundColor: common.black,
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
+const Navigation: React.SFC<Props> = ({ router, theme, onSwitchTheme }) => {
   const classes = useStyles();
+  const [state, setState] = useState({ themeSwitch: theme.palette.type === 'light' });
+
+  function handleThemeSwitch() {
+    onSwitchTheme();
+
+    setState({ ...state, themeSwitch: !state.themeSwitch });
+  }
 
   return (
     <>
@@ -95,6 +119,16 @@ const Navigation: React.SFC<Props> = ({ router }) => {
                 </Link>
               </Fragment>
             )}
+            <FormControlLabel
+              control={
+                <ThemeSwitch
+                  name="themeSwitch"
+                  checked={state.themeSwitch}
+                  onChange={handleThemeSwitch}
+                />
+              }
+              label={`${theme.palette.type} theme`}
+            />
           </aside>
         </nav>
       </header>

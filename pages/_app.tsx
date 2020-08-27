@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { create } from 'jss';
 import { AppContext, AppProps } from "next/app";
 import { ThemeProvider, CssBaseline, StylesProvider, jssPreset } from "@material-ui/core";
@@ -6,11 +6,11 @@ import { ThemeProvider, CssBaseline, StylesProvider, jssPreset } from "@material
 import "./app.module.css";
 import config from "../config";
 
-import theme from "../shared/theme";
 import { getMeta } from "../shared/util";
 
 import Navigation from "../shared/components/Navigation/Navigation";
 import DocumentHead from "../shared/components/Document/Head";
+import { lightTheme, darkTheme } from "../shared/theme";
 
 const jss = create({
   ...jssPreset(),
@@ -38,10 +38,9 @@ export async function getStaticProps({ Component, router, ctx }: AppContext) {
 }
 
 const WebApp: React.FC<AppProps> = (props) => {
-  const {
-    Component,
-    pageProps
-  } = props;
+  const { Component, pageProps } = props;
+
+  const [theme, setTheme] = useState(lightTheme);
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -57,6 +56,13 @@ const WebApp: React.FC<AppProps> = (props) => {
     ...pageProps,
   };
 
+  function handleSwitchTheme() {
+    setTheme(theme.palette.type === 'light'
+      ? darkTheme
+      : lightTheme
+    );
+  }
+
   return (
     <>
       <DocumentHead {...headProps}>
@@ -71,7 +77,10 @@ const WebApp: React.FC<AppProps> = (props) => {
       <ThemeProvider theme={theme}>
         <StylesProvider jss={jss}>
           <CssBaseline />
-          <Navigation />
+          <Navigation
+            theme={theme}
+            onSwitchTheme={handleSwitchTheme}
+          />
           <main>
             <Component {...pageProps} />
           </main>

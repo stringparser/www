@@ -1,10 +1,6 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createMuiTheme, ThemeOptions } from "@material-ui/core";
 
-const theme = createMuiTheme({
-    palette: {
-        type: 'dark',
-    },
-
+const baseTheme: ThemeOptions = {
     typography: {
         fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif',
         h1: {
@@ -22,6 +18,24 @@ const theme = createMuiTheme({
             variant: 'contained',
         },
     }
+};
+
+export const lightTheme = createMuiTheme({
+    ...baseTheme,
+
+    palette: {
+        ...baseTheme.palette,
+
+        type: 'light',
+    },
 });
 
-export default theme;
+export const darkTheme = createMuiTheme({
+    ...baseTheme,
+
+    palette: {
+        ...baseTheme.palette,
+
+        type: 'dark',
+    },
+});
