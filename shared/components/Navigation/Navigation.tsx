@@ -1,8 +1,10 @@
 import clsx from "clsx";
 import Link from "next/link";
+import { Fragment } from "react";
 import { withRouter, NextRouter } from "next/router";
 import { Theme, makeStyles, Link as MuiLink, Box } from "@material-ui/core";
 
+import Logo from "../Logo/Logo";
 import { bounds } from "../styles";
 
 const isCurrentPage = (currentHref: string, href: string) => (
@@ -71,25 +73,27 @@ const Navigation: React.SFC<Props> = ({ router }) => {
         <nav className={classes.nav}>
           <aside className={classes.logo}>
             <MuiLink href="/">
-              logo
+              <Logo />
             </MuiLink>
           </aside>
           <aside  className={classes.links}>
             {items.map(({ href, text }, index) =>
-              <Link
-                key={index}
-                href={href}
-                passHref={true}
-              >
-                <MuiLink
-                  className={clsx(
-                    classes.link,
-                    isCurrentPage(router.route, href) && classes.linkCurrent,
-                  )}
+              <Fragment key={index}>
+                /
+                <Link
+                  href={href}
+                  passHref={true}
                 >
-                  {text}
-                </MuiLink>
-              </Link>
+                  <MuiLink
+                    className={clsx(
+                      classes.link,
+                      isCurrentPage(router.route, href) && classes.linkCurrent,
+                    )}
+                  >
+                    {text}
+                  </MuiLink>
+                </Link>
+              </Fragment>
             )}
           </aside>
         </nav>
