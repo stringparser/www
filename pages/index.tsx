@@ -3,7 +3,7 @@ import List from "@material-ui/core/List";
 import Link from "@material-ui/core/Link";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, ListItemAvatar } from "@material-ui/core";
 import { lsDirStat } from "../shared/util";
 
 
@@ -61,7 +61,6 @@ const useStyles = makeStyles({
   listItemLabel: {
     maxWidth: '3rem',
     textAlign: 'right',
-    marginRight: '1rem',
   }
 });
 
@@ -74,19 +73,25 @@ const MainIndex: React.FC<Props> = ({
   return (
     <>
       <List className={classes.root}>
-        {items.map(({ href, label, title }, index) => {
+        {items.map(({ href, title, label, date }, index) => {
           return (
             <ListItem
               key={index}
+              button
+              href={href}
+              component="a"
               className={classes.listItem}
             >
+              <ListItemAvatar>
+                <ListItemText
+                  primary={`[${label}]`}
+                  className={classes.listItemLabel}
+                />
+              </ListItemAvatar>
               <ListItemText
-                primary={`[${label}]`}
-                className={classes.listItemLabel}
+                primary={title}
+                secondary={date}
               />
-              <Link href={href}>
-                <ListItemText primary={title} />
-              </Link>
             </ListItem>
           );
         })}
