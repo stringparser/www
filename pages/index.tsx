@@ -29,6 +29,7 @@ export async function getStaticProps(): Promise<{ props: Props }> {
       const title = (href.split('/').pop() || '')
         .replace(/^(\d+)-(\d+)-(\d+)/, '')
         .replace(/[-]/g, ' ')
+        .replace(/(^\s+|\s+$)/gm, '')
       ;
 
       return {

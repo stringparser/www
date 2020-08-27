@@ -42,6 +42,6 @@ export const darkTheme = createMuiTheme({
 
 export const defaultTheme =
   typeof window !== 'undefined'
-  && window.localStorage.getItem('theme') === 'dark' && darkTheme
-  || lightTheme
+  && window.localStorage.getItem('theme') === 'light' && lightTheme
+  || darkTheme
 ;

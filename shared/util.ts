@@ -50,9 +50,13 @@ export function getMeta(url: string = '') {
   return require(`../pages${route}.mdx`).meta || {};
 }
 
-export type lsDirStatResult = fs.Stats & { pathname: string };
+export type lsDirStatResult = fs.Stats & {
+  pathname: string;
+  createdAt?: string;
+};
 
 export function lsDirStat(pattern: string) {
+
   return new Promise((resolve: (result: lsDirStatResult[]) => void, reject) => {
     glob(pattern, function (error, matches) {
       if (error) {
@@ -62,7 +66,12 @@ export function lsDirStat(pattern: string) {
       Promise.all(matches.map(el => Promise.all([el, statFile(el)])))
         .then(values => {
           const result = values
-            .map(([pathname, stats]) => ({ ...stats, pathname }))
+            .map(([pathname, stats]) => {
+              return {
+                ...stats,
+                pathname
+              };
+            })
             .sort((a, b) =>
               a.birthtimeMs > b.birthtimeMs && -1 ||
               a.birthtimeMs < b.birthtimeMs && 1 ||
