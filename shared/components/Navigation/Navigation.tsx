@@ -3,13 +3,12 @@ import Link from "next/link";
 import { Fragment, useState } from "react";
 import { withRouter, NextRouter } from "next/router";
 import { common } from "@material-ui/core/colors";
-import { Theme, makeStyles, Link as MuiLink, FormControlLabel, withStyles, Switch } from "@material-ui/core";
+import { Theme, makeStyles, Link as MuiLink, FormControlLabel, withStyles, Switch, useTheme } from "@material-ui/core";
 
 import Logo from "../Logo/Logo";
 import { bounds } from "../styles";
 
 type Props = {
-  theme: Theme;
   router: NextRouter;
   onSwitchTheme: () => void;
 };
@@ -60,22 +59,31 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const ThemeSwitch = withStyles({
+function mapThemeColor(theme: Theme) {
+  return theme.palette.type === 'light'
+    ? common.black
+    : common.white
+  ;
+}
+
+const ThemeSwitch = withStyles(theme => ({
   switchBase: {
-    color: common.white,
+    color: mapThemeColor(theme),
     '&$checked': {
-      color: common.black,
+      color: mapThemeColor(theme),
     },
     '&$checked + $track': {
-      backgroundColor: common.black,
+      backgroundColor: mapThemeColor(theme),
     },
   },
-  checked: {},
   track: {},
-})(Switch);
+  checked: {},
+}))(Switch);
 
-const Navigation: React.SFC<Props> = ({ router, theme, onSwitchTheme }) => {
+const Navigation: React.SFC<Props> = ({ router, onSwitchTheme }) => {
+  const theme = useTheme();
   const classes = useStyles();
+
   const themeType = theme.palette.type;
 
   return (

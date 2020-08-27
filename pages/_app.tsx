@@ -37,8 +37,6 @@ export async function getStaticProps({ Component, router, ctx }: AppContext) {
   };
 }
 
-
-
 const WebApp: React.FC<AppProps> = (props) => {
   const { Component, pageProps } = props;
 
@@ -75,26 +73,25 @@ const WebApp: React.FC<AppProps> = (props) => {
   return (
     <>
       <ThemeProvider theme={theme}>
-          <StylesProvider jss={jss}>
-            <CssBaseline />
-            <DocumentHead {...headProps}>
-              <meta
-                name="apple-mobile-web-app-title"
-                content={headProps.pageTitle}
-              />
-              <title>
-                {headProps.pageTitle}
-              </title>
-            </DocumentHead>
-            <Navigation
-              theme={theme}
-              onSwitchTheme={handleSwitchTheme}
+        <StylesProvider jss={jss}>
+          <CssBaseline />
+          <DocumentHead {...headProps}>
+            <meta
+              name="apple-mobile-web-app-title"
+              content={headProps.pageTitle}
             />
-            <main>
-              <Component {...pageProps} />
-            </main>
-          </StylesProvider>
-        </ThemeProvider>
+            <title>
+              {headProps.pageTitle}
+            </title>
+          </DocumentHead>
+          <Navigation
+            onSwitchTheme={handleSwitchTheme}
+          />
+          <main>
+            <Component {...pageProps} />
+          </main>
+        </StylesProvider>
+      </ThemeProvider>
     </>
   );
 };
