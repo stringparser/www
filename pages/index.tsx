@@ -21,8 +21,6 @@ export async function getStaticProps(): Promise<{ props: Props }> {
   const path = require('path');
   const mainDir = path.join(process.cwd(), 'pages');
 
-  console.log('mainDir', mainDir);
-
   const items = (await lsDirStat(`${mainDir}/**/*.mdx`))
     .filter(el => /\/(lab|blog)\//.test(el.pathname))
     .map(el => {
@@ -41,8 +39,6 @@ export async function getStaticProps(): Promise<{ props: Props }> {
       };
     })
   ;
-
-  console.log('items', items);
 
   return {
     props: {
