@@ -3,12 +3,13 @@ import Link from "next/link";
 import { Fragment, useState } from "react";
 import { withRouter, NextRouter } from "next/router";
 import { common } from "@material-ui/core/colors";
-import { Theme, makeStyles, Link as MuiLink, FormControlLabel, withStyles, Switch, useTheme } from "@material-ui/core";
+import { Theme, makeStyles, Link as MuiLink, FormControlLabel, withStyles, Switch } from "@material-ui/core";
 
 import Logo from "../Logo/Logo";
 import { bounds } from "../styles";
 
 type Props = {
+  theme: Theme;
   router: NextRouter;
   onSwitchTheme: () => void;
 };
@@ -73,21 +74,9 @@ const ThemeSwitch = withStyles({
   track: {},
 })(Switch);
 
-const Navigation: React.SFC<Props> = ({ router, onSwitchTheme }) => {
-  const theme = useTheme();
+const Navigation: React.SFC<Props> = ({ router, theme, onSwitchTheme }) => {
   const classes = useStyles();
-
   const themeType = theme.palette.type;
-
-  const [state, setState] = useState({
-    themeSwitch: themeType === 'light'
-  });
-
-  function handleThemeSwitch() {
-    onSwitchTheme();
-
-    setState({ ...state, themeSwitch: !state.themeSwitch });
-  }
 
   return (
     <>
@@ -119,18 +108,18 @@ const Navigation: React.SFC<Props> = ({ router, onSwitchTheme }) => {
             )}
           </aside>
           <aside>
-              <FormControlLabel
-                control={
-                  <ThemeSwitch
-                    name="themeSwitch"
-                    checked={state.themeSwitch}
-                    onChange={handleThemeSwitch}
-                  />
-                }
-                label={`${themeType} theme`}
-                labelPlacement="start"
-              />
-            </aside>
+            <FormControlLabel
+              control={
+                <ThemeSwitch
+                  name="themeSwitch"
+                  checked={themeType === 'light'}
+                  onChange={onSwitchTheme}
+                />
+              }
+              label={`${themeType} theme`}
+              labelPlacement="start"
+            />
+          </aside>
         </nav>
       </header>
     </>

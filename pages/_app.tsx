@@ -10,7 +10,7 @@ import { getMeta } from "../shared/util";
 
 import Navigation from "../shared/components/Navigation/Navigation";
 import DocumentHead from "../shared/components/Document/Head";
-import { lightTheme, darkTheme } from "../shared/theme";
+import { lightTheme, darkTheme, defaultTheme } from "../shared/theme";
 
 const jss = create({
   ...jssPreset(),
@@ -37,19 +37,12 @@ export async function getStaticProps({ Component, router, ctx }: AppContext) {
   };
 }
 
+
+
 const WebApp: React.FC<AppProps> = (props) => {
   const { Component, pageProps } = props;
 
-  const defaultTheme =
-    typeof window !== 'undefined'
-    && window.localStorage.getItem('theme')
-    || 'light'
-  ;
-
-  const [theme, setTheme] = useState(defaultTheme === 'light'
-    ? lightTheme
-    : darkTheme
-  );
+  const [theme, setTheme] = useState(defaultTheme);
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -81,26 +74,27 @@ const WebApp: React.FC<AppProps> = (props) => {
 
   return (
     <>
-      <DocumentHead {...headProps}>
-        <meta
-          name="apple-mobile-web-app-title"
-          content={headProps.pageTitle}
-        />
-        <title>
-          {headProps.pageTitle}
-        </title>
-      </DocumentHead>
       <ThemeProvider theme={theme}>
-        <StylesProvider jss={jss}>
-          <CssBaseline />
-          <Navigation
-            onSwitchTheme={handleSwitchTheme}
-          />
-          <main>
-            <Component {...pageProps} />
-          </main>
-        </StylesProvider>
-      </ThemeProvider>
+          <StylesProvider jss={jss}>
+            <CssBaseline />
+            <DocumentHead {...headProps}>
+              <meta
+                name="apple-mobile-web-app-title"
+                content={headProps.pageTitle}
+              />
+              <title>
+                {headProps.pageTitle}
+              </title>
+            </DocumentHead>
+            <Navigation
+              theme={theme}
+              onSwitchTheme={handleSwitchTheme}
+            />
+            <main>
+              <Component {...pageProps} />
+            </main>
+          </StylesProvider>
+        </ThemeProvider>
     </>
   );
 };

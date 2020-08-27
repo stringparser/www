@@ -48,7 +48,7 @@ export async function getStaticProps(): Promise<{ props: Props }> {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     width: '100%',
   },
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'right',
     marginRight: '1rem',
   }
-}));
+});
 
 const MainIndex: React.FC<Props> = ({
   items = [],
