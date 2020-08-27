@@ -2,11 +2,11 @@ import clsx from "clsx";
 import Link from "next/link";
 import { Fragment, useState } from "react";
 import { withRouter, NextRouter } from "next/router";
-import { Theme, makeStyles, Link as MuiLink, Box, FormControlLabel, withStyles, Switch, useTheme } from "@material-ui/core";
+import { common } from "@material-ui/core/colors";
+import { Theme, makeStyles, Link as MuiLink, FormControlLabel, withStyles, Switch, useTheme } from "@material-ui/core";
 
 import Logo from "../Logo/Logo";
 import { bounds } from "../styles";
-import { common } from "@material-ui/core/colors";
 
 type Props = {
   router: NextRouter;
@@ -35,10 +35,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: `${bounds.maxWidth}`,
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-
-  logo: {
-
   },
 
   links: {
@@ -82,7 +78,10 @@ const Navigation: React.SFC<Props> = ({ router, onSwitchTheme }) => {
   const classes = useStyles();
 
   const themeType = theme.palette.type;
-  const [state, setState] = useState({ themeSwitch: themeType === 'light' });
+
+  const [state, setState] = useState({
+    themeSwitch: themeType === 'light'
+  });
 
   function handleThemeSwitch() {
     onSwitchTheme();
@@ -94,7 +93,7 @@ const Navigation: React.SFC<Props> = ({ router, onSwitchTheme }) => {
     <>
       <header className={classes.header}>
         <nav className={classes.nav}>
-          <aside className={classes.logo}>
+          <aside>
             <MuiLink href="/">
               <Logo />
             </MuiLink>
