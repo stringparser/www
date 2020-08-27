@@ -40,7 +40,16 @@ export async function getStaticProps({ Component, router, ctx }: AppContext) {
 const WebApp: React.FC<AppProps> = (props) => {
   const { Component, pageProps } = props;
 
-  const [theme, setTheme] = useState(lightTheme);
+  const defaultTheme =
+    typeof window !== 'undefined'
+    && window.localStorage.getItem('theme')
+    || 'light'
+  ;
+
+  const [theme, setTheme] = useState(defaultTheme === 'light'
+    ? lightTheme
+    : darkTheme
+  );
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -57,10 +66,17 @@ const WebApp: React.FC<AppProps> = (props) => {
   };
 
   function handleSwitchTheme() {
-    setTheme(theme.palette.type === 'light'
+    const themeType = theme.palette.type === 'light'
+      ? 'dark'
+      : 'light'
+    ;
+
+    setTheme(themeType === 'dark'
       ? darkTheme
       : lightTheme
     );
+
+    window.localStorage.setItem('theme', themeType);
   }
 
   return (

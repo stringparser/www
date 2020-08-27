@@ -94,7 +94,7 @@ const Navigation: React.SFC<Props> = ({ router, theme, onSwitchTheme }) => {
         <nav className={classes.nav}>
           <aside className={classes.logo}>
             <MuiLink href="/">
-              <Logo />
+              <Logo theme={theme} />
             </MuiLink>
           </aside>
           <aside  className={classes.links}>

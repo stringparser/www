@@ -1,7 +1,10 @@
-import { Box, useTheme } from "@material-ui/core";
+import { Box, Theme } from "@material-ui/core";
 
-const Logo: React.FC = () => {
-  const theme = useTheme();
+type Props = {
+  theme: Theme;
+};
+
+const Logo: React.FC<Props> = ({ theme }) => {
 
   return (
     <Box

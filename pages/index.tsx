@@ -43,7 +43,7 @@ export async function getStaticProps(): Promise<{ props: Props }> {
   return {
     props: {
       items,
-      pageTitle: 'home',
+      pageTitle: 'Hi, I\'m Javier',
     },
   };
 }
