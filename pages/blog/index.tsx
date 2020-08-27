@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
   },
 }));
 
@@ -54,7 +53,7 @@ const BlogIndex: React.FC<Props> = ({
 
   return (
     <>
-      <h1>blog index</h1>
+      <h1>blog</h1>
 
       <List className={classes.root}>
         {posts.map((el, index) => {

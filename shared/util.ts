@@ -1,3 +1,9 @@
+import fs from "fs";
+import { glob } from "glob";
+import { promisify } from "util";
+
+const statFile = promisify(fs.stat);
+
 export function registerServiceWorker() {
   if ("serviceWorker" in navigator && "caches" in window) {
     setTimeout(async () => {
@@ -34,7 +40,7 @@ export function getMeta(url: string = '') {
   const route = url.replace(/\/(index)?$/, '');
 
   if (!route || route === "/") {
-    return require("../pages/index.mdx").meta || {};
+    return {};
   }
 
   if (baseFolders.includes(route)) {
@@ -42,4 +48,31 @@ export function getMeta(url: string = '') {
   }
 
   return require(`../pages${route}.mdx`).meta || {};
+}
+
+export type lsDirStatResult = fs.Stats & { pathname: string };
+
+export function lsDirStat(pattern: string) {
+  return new Promise((resolve: (result: lsDirStatResult[]) => void, reject) => {
+    glob(pattern, function (error, matches) {
+      if (error) {
+        reject(error);
+      }
+
+      Promise.all(matches.map(el => Promise.all([el, statFile(el)])))
+        .then(values => {
+          const result = values
+            .map(([pathname, stats]) => ({ ...stats, pathname }))
+            .sort((a, b) =>
+              a.birthtimeMs > b.birthtimeMs && -1 ||
+              a.birthtimeMs < b.birthtimeMs && 1 ||
+              0
+            )
+          ;
+
+          resolve(result);
+        })
+      ;
+    });
+  });
 }

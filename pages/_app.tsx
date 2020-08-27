@@ -1,6 +1,7 @@
 import React from "react";
+import { create } from 'jss';
 import { AppContext, AppProps } from "next/app";
-import { ThemeProvider, CssBaseline } from "@material-ui/core";
+import { ThemeProvider, CssBaseline, StylesProvider, jssPreset } from "@material-ui/core";
 
 import "./app.module.css";
 import config from "../config";
@@ -10,6 +11,10 @@ import { getMeta } from "../shared/util";
 
 import Navigation from "../shared/components/Navigation/Navigation";
 import DocumentHead from "../shared/components/Document/Head";
+
+const jss = create({
+  ...jssPreset(),
+});
 
 export async function getStaticProps({ Component, router, ctx }: AppContext) {
   const pageProps = typeof window === 'undefined' && Component.getInitialProps
@@ -63,12 +68,14 @@ const WebApp: React.FC<AppProps> = (props) => {
           {headProps.pageTitle}
         </title>
       </DocumentHead>
-      <Navigation />
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <main>
-          <Component {...pageProps} />
-        </main>
+        <StylesProvider jss={jss}>
+          <CssBaseline />
+          <Navigation />
+          <main>
+            <Component {...pageProps} />
+          </main>
+        </StylesProvider>
       </ThemeProvider>
     </>
   );

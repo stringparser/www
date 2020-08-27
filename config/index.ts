@@ -1,7 +1,7 @@
 export default {
   defaults: {
     siteName: "jacami",
-    pageTitle: "I'm Javier, freelance Software Engineer",
+    pageTitle: "Hi, I'm Javier",
     primaryColor: "#0070BB",
   },
 

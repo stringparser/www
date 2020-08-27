@@ -5,7 +5,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core";
 
-
 type Props = {
   items: Array<{
     href: string;
@@ -43,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
   },
 }));
 
@@ -54,7 +52,7 @@ const LabIndex: React.FC<Props> = ({
 
   return (
     <>
-      <h1>lab index</h1>
+      <h1>lab</h1>
 
       <List className={classes.root}>
         {items.map((el, index) => {

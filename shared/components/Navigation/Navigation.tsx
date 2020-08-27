@@ -1,5 +1,7 @@
+import clsx from "clsx";
 import Link from "next/link";
 import { withRouter, NextRouter } from "next/router";
+import { Theme, makeStyles, Link as MuiLink, Box } from "@material-ui/core";
 
 import { bounds } from "../styles";
 
@@ -9,16 +11,12 @@ const isCurrentPage = (currentHref: string, href: string) => (
 
 const items = [
   {
-    href: '/',
-    label: 'home',
-  },
-  {
     href: '/lab',
-    label: 'lab',
+    text: 'lab',
   },
   {
     href: '/blog',
-    label: 'blog',
+    text: 'blog',
   },
 ];
 
@@ -26,70 +24,78 @@ type Props = {
   router: NextRouter
 };
 
-const Navigation: React.SFC<Props> = ({ router }) => (
-  <>
-    <header>
-      <nav>
-        <aside className="links">
-          {items.map(({ href, label }, index) =>
-            <Link
-              key={index}
-              href={href}
-              passHref={true}
-            >
-              <a className={isCurrentPage(router.route, href)
-                ? 'current'
-                : undefined
-              }>
-                {label}
-              </a>
-            </Link>
-          )}
-        </aside>
-        <aside>
-          <Link href="?lang=es">
-            <a>es</a>
-          </Link>
-          <span className="lang-divider"> / </span>
-          <Link href="?lang=en">
-            <a>en</a>
-          </Link>
-        </aside>
-      </nav>
-    </header>
-    <style jsx>{`
-      header {
-        padding: 1.25rem 1rem;
-        box-shadow: 0 1px 1px rgba(0,0,0,0.075);
-      }
+const useStyles = makeStyles((theme: Theme) => ({
+  nav: {
+    margin: '0 auto',
+    display: 'flex',
+    maxWidth: `${bounds.maxWidth}`,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 
-      nav {
-        margin: 0 auto;
-        max-width: ${bounds.maxWidth};
+  logo: {
 
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
+  },
 
-      .links a {
-        margin: 0 1rem;
-      }
-      .links a.current {
-        text-decoration: underline;
-      }
-      .links a:first-child {
-        margin-left: 0;
-      }
-      .links a:last-child {
-        margin-right: 0;
-      }
+  links: {
+    width: '100%',
+    margin: '0 1rem',
+    display: 'flex',
+    textAlign: 'right',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  link: {
+    marginRight: '1rem',
+  },
+  linkCurrent: {
+    textDecoration: 'underline',
+  },
 
-      .lang-divider {
-        color: rgba(0,0,0,0.075);
-      }
-    `}</style>
-  </>
-);
+  header: {
+    padding: '1.25rem 1rem',
+    boxShadow: `0 1px 1px ${theme.palette.divider}`,
+  },
+
+  langDivider: {
+    color: 'rgba(0,0,0,0.075)',
+  }
+}));
+
+const Navigation: React.SFC<Props> = ({ router }) => {
+  const classes = useStyles();
+
+  return (
+    <>
+      <header className={classes.header}>
+        <nav className={classes.nav}>
+          <aside className={classes.logo}>
+            <MuiLink href="/">
+              logo
+            </MuiLink>
+          </aside>
+          <aside  className={classes.links}>
+            {items.map(({ href, text }, index) =>
+              <Link
+                key={index}
+                href={href}
+                passHref={true}
+              >
+                <MuiLink
+                  className={clsx(
+                    classes.link,
+                    isCurrentPage(router.route, href) && classes.linkCurrent,
+                  )}
+                >
+                  {text}
+                </MuiLink>
+              </Link>
+            )}
+          </aside>
+        </nav>
+      </header>
+    </>
+  );
+};
 
 export default withRouter(Navigation);
