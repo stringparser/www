@@ -16,10 +16,9 @@ const items: RxJsonSchema<ItemDocType> = {
   version: 0,
   keyCompression: false,
   properties: {
-      content: {
-          type: 'string',
-          primary: true
-      },
+    content: {
+      type: 'string',
+    },
   },
   required: ['content']
 };

@@ -27,10 +27,10 @@ const rxdb = createRxDatabase<DatabaseCollections>({
 class RXDBService {
   private db = rxdb;
 
-  async insertItem(doc: ItemDocType) {
+  async insertItem(payload: Omit<ItemDocType, '_id'>) {
     const db =  await this.db;
 
-    return db.items.insert(doc);
+    return db.items.insert(payload);
   }
 
   async findItems(): Promise<RxDocument<ItemDocType>[]> {
@@ -38,6 +38,14 @@ class RXDBService {
     const query = db.items.find();
 
     return query.exec();
+  }
+
+  async updateItem(item: RxDocument<ItemDocType>, payload: ItemDocType) {
+    return item.update({
+      _id: item.get('_id'),
+      _rev: item.get('_rev'),
+      ...payload
+    });
   }
 }
 

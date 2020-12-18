@@ -2,18 +2,47 @@ import { RxDocument } from 'rxdb';
 
 import { ItemDocType } from '../collections';
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, List, ListItem, ListItemText, TextField } from '@material-ui/core';
+import { Box, Button, Divider, List, ListItem, ListItemText, makeStyles, TextField } from '@material-ui/core';
 
-function renderItems(items: ItemDocType[]) {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
+
+type ListItemsProps = {
+  items: RxDocument<ItemDocType>[];
+  handleItemSelect: (item: RxDocument<ItemDocType>) => void;
+};
+
+const ListItems: React.FC<ListItemsProps> = ({ items, handleItemSelect }) => {
+  const classes = useStyles();
+
   if (items.length === 0) {
-    return 'No items yet';
+    return (
+      <List className={classes.root}>
+        No items yet
+      </List>
+    );
   }
 
+  const lastIndex = items.length - 1;
+
   return (
-    <List>
+    <List
+      dense
+      className={classes.root}
+    >
       {items.map((el, index) => {
         return (
-          <ListItem key={index}>
+          <ListItem
+            key={index}
+            button
+            divider={index < lastIndex}
+            onClick={() => handleItemSelect(el)}
+          >
             <ListItemText>
               {el.content}
             </ListItemText>
@@ -33,6 +62,8 @@ function getRxService() {
 const RxDBLog: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<RxDocument<ItemDocType>[]>([])
+  const [inputValue, setInputValue] = useState('');
+  const [selectedItem, setSelectedItem] = useState<RxDocument<ItemDocType>>();
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -46,7 +77,7 @@ const RxDBLog: React.FC = () => {
     ;
   });
 
-  function handleAddItem(ev: React.MouseEvent<HTMLButtonElement>) {
+  function handleInsertItem() {
     const value = inputRef.current?.value;
 
     if (value == null || typeof window === 'undefined') {
@@ -54,25 +85,76 @@ const RxDBLog: React.FC = () => {
     }
 
     getRxService()
-      .then(getRxService =>
-        getRxService.insertItem({ content: value })
+      .then(RxService =>
+        RxService.insertItem({ content: value })
       )
     ;
   }
 
+  function handleUpdateItem() {
+    if (!selectedItem) {
+      return;
+    }
+
+    const value = (inputRef.current?.value || '').replace(/\s+/, '');
+
+    setSelectedItem(undefined);
+
+    getRxService()
+      .then(RxService =>
+        RxService.updateItem(selectedItem, { content: value || '<empty>' })
+      )
+    ;
+  }
+
+  function handleEnterKey(ev: React.KeyboardEvent<HTMLInputElement>) {
+    if (ev.key !== 'Enter') {
+      return;
+    }
+
+    if (selectedItem) {
+      handleUpdateItem();
+    } else {
+      handleInsertItem();
+    }
+
+    setInputValue('');
+  }
+
+  function handleInputChange() {
+    const value = inputRef.current?.value;
+
+    if (value != null) {
+      setInputValue(value);
+    }
+  }
+
+  function handleItemSelect(item: RxDocument<ItemDocType>) {
+    setSelectedItem(item);
+    setInputValue(item.content);
+  }
+
   return (
     <Box>
-      <Box>
-        <TextField inputRef={inputRef} />
+      <Box display="flex" maxWidth="80vw">
+        <TextField
+          value={inputValue}
+          inputRef={inputRef}
+          onInput={handleInputChange}
+          onKeyDown={handleEnterKey}
+        />
         <span style={{padding: '0.5rem'}} />
         <Button
           component="button"
-          onClick={handleAddItem}
-          children="add"
+          onClick={selectedItem ? handleUpdateItem : handleInsertItem}
+          children={selectedItem ? 'update' : 'add'}
         />
       </Box>
       <div style={{padding: '0.5rem'}} />
-      {renderItems(items)}
+      <ListItems
+        items={items}
+        handleItemSelect={handleItemSelect}
+      />
     </Box>
   );
 };
