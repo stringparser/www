@@ -14,7 +14,7 @@ const items: RxJsonSchema<ItemDocType> = {
   type: 'object',
   description: 'describes a human being',
   version: 0,
-  keyCompression: true,
+  keyCompression: false,
   properties: {
       content: {
           type: 'string',

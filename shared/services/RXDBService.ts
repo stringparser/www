@@ -3,7 +3,10 @@ import schemas, { DatabaseCollections, ItemDocType } from '../collections';
 
 addRxPlugin(require('pouchdb-adapter-idb'));
 
-const rxdb = createRxDatabase<DatabaseCollections>({ name: 'test_rxdb', adapter: 'idb' })
+const rxdb = createRxDatabase<DatabaseCollections>({
+    name: 'test_rxdb',
+    adapter: 'idb',
+  })
   .then(db => Promise.all([db, db.addCollections(schemas)]))
   .then(([db]) => {
     console.info('database ready for use');
