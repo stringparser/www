@@ -84,6 +84,8 @@ const RxDBLog: React.FC = () => {
       return;
     }
 
+    setInputValue('');
+
     getRxService()
       .then(RxService =>
         RxService.insertItem({ content: value })
@@ -98,6 +100,7 @@ const RxDBLog: React.FC = () => {
 
     const value = (inputRef.current?.value || '').replace(/\s+/, '');
 
+    setInputValue('');
     setSelectedItem(undefined);
 
     getRxService()
@@ -117,8 +120,6 @@ const RxDBLog: React.FC = () => {
     } else {
       handleInsertItem();
     }
-
-    setInputValue('');
   }
 
   function handleInputChange() {
