@@ -1,6 +1,9 @@
+import { RxDBKeyCompressionPlugin } from 'rxdb/plugins/key-compression';
 import { addRxPlugin, createRxDatabase, RxDocument } from 'rxdb';
+
 import schemas, { DatabaseCollections, ItemDocType } from '../collections';
 
+addRxPlugin(RxDBKeyCompressionPlugin);
 addRxPlugin(require('pouchdb-adapter-idb'));
 
 const rxdb = createRxDatabase<DatabaseCollections>({
