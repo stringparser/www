@@ -1,8 +1,10 @@
+import { RxDBValidatePlugin } from 'rxdb/plugins/validate';
 import { RxDBKeyCompressionPlugin } from 'rxdb/plugins/key-compression';
 import { addRxPlugin, createRxDatabase, RxDocument } from 'rxdb';
 
 import schemas, { DatabaseCollections, ItemDocType } from '../collections';
 
+addRxPlugin(RxDBValidatePlugin);
 addRxPlugin(RxDBKeyCompressionPlugin);
 addRxPlugin(require('pouchdb-adapter-idb'));
 
