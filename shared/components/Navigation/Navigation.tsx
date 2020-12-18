@@ -33,9 +33,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   nav: {
     margin: '0 auto',
     display: 'flex',
-    maxWidth: `${bounds.maxWidth}`,
+    maxWidth: '85vw',
     alignItems: 'center',
     justifyContent: 'space-between',
+    '@media (min-width: 1024px)': {
+      maxWidth: '750px',
+    }
   },
 
   links: {

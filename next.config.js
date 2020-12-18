@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const withCSS = require("@zeit/next-css");
 const withFonts = require("next-fonts");
 const withOptimizedImages = require("next-optimized-images");

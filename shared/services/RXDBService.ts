@@ -1,11 +1,16 @@
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate';
+import { RxDBValidateZSchemaPlugin } from 'rxdb/plugins/validate-z-schema'
 import { RxDBKeyCompressionPlugin } from 'rxdb/plugins/key-compression';
 import { addRxPlugin, createRxDatabase, RxDocument } from 'rxdb';
 
 import schemas, { DatabaseCollections, ItemDocType } from '../collections';
 
+// plugins
 addRxPlugin(RxDBValidatePlugin);
 addRxPlugin(RxDBKeyCompressionPlugin);
+addRxPlugin(RxDBValidateZSchemaPlugin);
+
+// adapter
 addRxPlugin(require('pouchdb-adapter-idb'));
 
 const rxdb = createRxDatabase<DatabaseCollections>({
