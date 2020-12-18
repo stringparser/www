@@ -9941,13 +9941,6 @@ relateurl@0.2.x:
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
 
-remark-dropcap@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/remark-dropcap/-/remark-dropcap-0.1.7.tgz#d296858fed9b7509b507877906c5d8321dcebde7"
-  integrity sha512-s6ypvGgQAiO+rNgMmxgM7EGSDgNXZKfZvVxEZ6o7eUqgB/Doo36hGaxxpvn1EWGswwvrpMvwtoLmLrMa3P+KeQ==
-  dependencies:
-    unist-util-visit "^2.0.0"
-
 remark-emoji@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/remark-emoji/-/remark-emoji-2.1.0.tgz#69165d1181b98a54ad5d9ef811003d53d7ebc7db"

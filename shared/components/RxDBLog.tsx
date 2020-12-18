@@ -2,7 +2,7 @@ import { RxDocument } from 'rxdb';
 
 import { ItemDocType } from '../collections';
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Divider, List, ListItem, ListItemText, makeStyles, TextField } from '@material-ui/core';
+import { Box, Button, Divider, FormControl, List, ListItem, ListItemText, makeStyles, TextField } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -137,19 +137,29 @@ const RxDBLog: React.FC = () => {
 
   return (
     <Box>
-      <Box display="flex" maxWidth="80vw">
-        <TextField
-          value={inputValue}
-          inputRef={inputRef}
-          onInput={handleInputChange}
-          onKeyDown={handleEnterKey}
-        />
-        <span style={{padding: '0.5rem'}} />
-        <Button
-          component="button"
-          onClick={selectedItem ? handleUpdateItem : handleInsertItem}
-          children={selectedItem ? 'update' : 'add'}
-        />
+      <Box
+        display="flex"
+        maxWidth="80vw"
+      >
+        <div style={{padding: '2rem'}} />
+        <Divider />
+        <Box
+          display="flex"
+          alignItems="center"
+        >
+          <TextField
+            value={inputValue}
+            inputRef={inputRef}
+            onInput={handleInputChange}
+            onKeyDown={handleEnterKey}
+          />
+          <span style={{padding: '0.5rem'}} />
+          <Button
+            component="button"
+            onClick={selectedItem ? handleUpdateItem : handleInsertItem}
+            children={selectedItem ? 'update' : 'add'}
+          />
+        </Box>
       </Box>
       <div style={{padding: '0.5rem'}} />
       <ListItems

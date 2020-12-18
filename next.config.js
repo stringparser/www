@@ -1,11 +1,10 @@
 /* eslint-disable no-undef */
-const withCSS = require("@zeit/next-css");
-const withFonts = require("next-fonts");
-const withOptimizedImages = require("next-optimized-images");
+const withCSS = require('@zeit/next-css');
+const withFonts = require('next-fonts');
+const withOptimizedImages = require('next-optimized-images');
 
-const emoji = require("remark-emoji");
-const images = require("remark-images");
-const dropcap = require('remark-dropcap');
+const emoji = require('remark-emoji');
+const images = require('remark-images');
 
 exports = module.exports = (nextConfig = {}) => {
 
@@ -13,15 +12,15 @@ exports = module.exports = (nextConfig = {}) => {
     withFonts(
       withOptimizedImages({
         pageExtensions: [
-          "ts",
-          "tsx",
-          "md",
-          "mdx"
+          'md',
+          'ts',
+          'mdx',
+          'tsx',
         ],
 
         webpack(config, options) {
           config.node = {
-            fs: "empty"
+            fs: 'empty'
           };
 
           config.module.rules.push({
@@ -33,8 +32,7 @@ exports = module.exports = (nextConfig = {}) => {
                 options: {
                   remarkPlugins: [
                     emoji,
-                    images,
-                    dropcap
+                    images
                   ]
                 },
               },
