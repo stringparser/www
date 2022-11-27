@@ -4,32 +4,17 @@ import Link from "@material-ui/core/Link";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core";
+import { getPageItemsProps, PageItemProps } from "../../shared/util";
+import PagePostItem from "../../shared/components/Post/PostItem";
 
 
-type Props = {
-  posts: Array<{
-    href: string;
-    title: string;
-  }>;
+type BlogIndexProps = {
+  posts: PageItemProps[];
   pageTitle: string;
 };
 
-export async function getStaticProps(): Promise<{ props: Props }> {
-  const fs = require('fs');
-  const path = require('path');
-
-  const posts = fs.readdirSync(path.join(process.cwd(), 'pages', 'blog'))
-    .filter((el: string) => /^\d+-\d+-\d+/.test(el))
-    .map((el: string) => `/blog/${el.replace(/\.mdx$/, '')}`)
-    .map((href: string) => {
-      const title = (/\d+-\d+-\d+-(\S+)/gm.exec(href) || ['']).pop() || '';
-
-      return {
-        href,
-        title: title.replace(/[-]/g, ' '),
-      };
-    })
-  ;
+export async function getStaticProps(): Promise<{ props: BlogIndexProps }> {
+  const posts = await getPageItemsProps(/\/blog\//);
 
   return {
     props: {
@@ -39,30 +24,29 @@ export async function getStaticProps(): Promise<{ props: Props }> {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: '100%',
     maxWidth: 360,
   },
 }));
 
-const BlogIndex: React.FC<Props> = ({
+const BlogIndex: React.FC<BlogIndexProps> = ({
   posts = []
 }) => {
   const classes = useStyles();
 
   return (
     <>
-      <h1>blog</h1>
+      <h1>Blog</h1>
 
       <List className={classes.root}>
-        {posts.map((el, index) => {
+        {posts.map((item, index) => {
           return (
-            <ListItem key={index}>
-              <Link href={el.href}>
-                <ListItemText primary={el.title} />
-              </Link>
-            </ListItem>
+            <PagePostItem
+              key={index}
+              item={item}
+            />
           );
         })}
       </List>

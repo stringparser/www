@@ -4,36 +4,21 @@ import Link from "@material-ui/core/Link";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core";
+import { getPageItemsProps, PageItemProps } from "../../shared/util";
+import PagePostItem from "../../shared/components/Post/PostItem";
 
-type Props = {
-  items: Array<{
-    href: string;
-    title: string;
-  }>;
+type LabIndexProps = {
+  items: PageItemProps[];
   pageTitle: string;
 };
 
-export async function getStaticProps(): Promise<{ props: Props }> {
-  const fs = require('fs');
-  const path = require('path');
-
-  const items = fs.readdirSync(path.join(process.cwd(), 'pages', 'lab'))
-    .filter((el: string) => /\.mdx$/.test(el))
-    .map((el: string) => `/lab/${el.replace(/\.mdx$/, '')}`)
-    .map((href: string) => {
-      const title = href.split('/').pop() || '';
-
-      return {
-        href,
-        title: title.replace(/[-]/g, ' '),
-      };
-    })
-  ;
+export async function getStaticProps(): Promise<{ props: LabIndexProps }> {
+  const items = await getPageItemsProps(/\/lab\//)
 
   return {
     props: {
       items,
-      pageTitle: 'blog index',
+      pageTitle: 'lab index',
     },
   };
 }
@@ -45,23 +30,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LabIndex: React.FC<Props> = ({
+const LabIndex: React.FC<LabIndexProps> = ({
   items = []
 }) => {
   const classes = useStyles();
 
   return (
     <>
-      <h1>lab</h1>
+      <h1>Lab</h1>
 
       <List className={classes.root}>
-        {items.map((el, index) => {
+        {items.map((item, index) => {
           return (
-            <ListItem key={index}>
-              <Link href={el.href}>
-                <ListItemText primary={el.title} />
-              </Link>
-            </ListItem>
+            <PagePostItem
+              key={index}
+              item={item}
+            />
           );
         })}
       </List>

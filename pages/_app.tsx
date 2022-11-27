@@ -56,20 +56,6 @@ const WebApp: React.FC<AppProps> = (props) => {
     ...pageProps,
   };
 
-  function handleSwitchTheme() {
-    const themeType = theme.palette.type === 'light'
-      ? 'dark'
-      : 'light'
-    ;
-
-    setTheme(themeType === 'dark'
-      ? darkTheme
-      : lightTheme
-    );
-
-    window.localStorage.setItem('theme', themeType);
-  }
-
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -84,9 +70,7 @@ const WebApp: React.FC<AppProps> = (props) => {
               {headProps.pageTitle}
             </title>
           </DocumentHead>
-          <Navigation
-            onSwitchTheme={handleSwitchTheme}
-          />
+          <Navigation />
           <main>
             <Component {...pageProps} />
           </main>

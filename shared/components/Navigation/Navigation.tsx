@@ -3,15 +3,12 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { withRouter, NextRouter } from "next/router";
 
-import { common } from "@material-ui/core/colors";
-import { Theme, makeStyles, Link as MuiLink, FormControlLabel, withStyles, Switch, useTheme } from "@material-ui/core";
+import { Theme, makeStyles, Link as MuiLink, useTheme } from "@material-ui/core";
 
 import Logo from "../Logo/Logo";
-import { bounds } from "../styles";
 
 type Props = {
   router: NextRouter;
-  onSwitchTheme: () => void;
 };
 
 const items = [
@@ -63,32 +60,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-function mapThemeColor(theme: Theme) {
-  return theme.palette.type === 'light'
-    ? common.black
-    : common.white
-  ;
-}
-
-const ThemeSwitch = withStyles(theme => ({
-  switchBase: {
-    color: mapThemeColor(theme),
-    '&$checked': {
-      color: mapThemeColor(theme),
-    },
-    '&$checked + $track': {
-      backgroundColor: mapThemeColor(theme),
-    },
-  },
-  track: {},
-  checked: {},
-}))(Switch);
-
-const Navigation: React.SFC<Props> = ({ router, onSwitchTheme }) => {
+const Navigation: React.SFC<Props> = ({ router }) => {
   const theme = useTheme();
   const classes = useStyles();
-
-  const themeType = theme.palette.type;
 
   return (
     <>
@@ -118,15 +92,6 @@ const Navigation: React.SFC<Props> = ({ router, onSwitchTheme }) => {
                 </Link>
               </Fragment>
             )}
-          </aside>
-          <aside>
-            <FormControlLabel
-              label={`${themeType} theme`}
-              value={themeType === 'light'}
-              control={<ThemeSwitch name="themeSwitch" />}
-              labelPlacement="start"
-              onChange={onSwitchTheme}
-            />
           </aside>
         </nav>
       </header>
