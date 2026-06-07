@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-accent: #fbf36d;
+  --color-surface: #fafafa;
+  --color-ink: #111111;
+  --color-muted: #5c5c5c;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 70%, white);
+}
+
+.prose a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose a:hover {
+  color: var(--color-muted);
+}
+
+.highlight {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 55%,
+    var(--color-accent) 55%,
+    var(--color-accent) 100%
+  );
+}
